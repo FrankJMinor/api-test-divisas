@@ -13,5 +13,4 @@ toekn = 'c94ad844a798f3fc61abda40814a83949c4fa2a588a278ff2d96dca127149a32'
 url = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/:idSerie/datos/:fechaIni/:fechaFin"
 
 udis = 'SP68257'
-
-dollar = 'SF57805'
+dollar = 'SF63528'

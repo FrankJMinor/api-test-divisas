@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Divisas:
+class BmxDivisas:
 
     def __init__(self):
         super().__init__()
