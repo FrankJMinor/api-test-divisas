@@ -17,7 +17,10 @@ from flask import request
 from flask import Flask
 
 # services local library
-from Services.DivisasService import Divisas
+from Services.DivisasService import BmxDivisas
+
+# model local library
+from Models.BigQueryModel import BigQueryData
 
 # config local library
 from Config.cfn import headers
@@ -28,7 +31,11 @@ def handler(request):
     
     if request.method == 'GET':
         args =request.args
+
         #function to get data
+        response = BmxDivisas(requeriment=args).get_data()
+        return (jsonify(response),200)
+
         
 
 ## NO SE MANEJA EN CLOUD
@@ -37,7 +44,7 @@ if __name__ == '__main__':
     app = Flask(__name__)
 
     # option 1
-    @app.route('/', methods=['POST', 'GET', 'OPTIONS'])
+    @app.route('/Divisas', methods=['GET', 'OPTIONS'])
     def test():
         return handler(request)
     app.run(host='0.0.0.0', port=5002, debug=False)

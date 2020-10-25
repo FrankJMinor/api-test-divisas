@@ -19,18 +19,19 @@ def body_error(message):
     return error, HTTPStatus.BAD_REQUEST
 
 class TypeOfValue(Exception):
-    """Exception raised for value data from Json to the API Divisas
+    """Exception raised for value data from Json to the API payment
 
     Atributes:
-        value ([type]): [Description]
-        message ([type]): [Description]
-        response ([type]): [Description]
+        value -- input value witch caused the error
     """
-    def __init__(self, value, message):
+    def __init__(self, value, field, type):
         self.value = value
-        self.message = message
-        self.response = f'Mensaje de errror {message}'
-        super().__init__(self.response)
+        self.field = field
+        self.type = type
+        self.code = HTTPStatus.BAD_REQUEST
+
+        self.response = f"El campo '{field}' : {value} debe ser -> {type}"
+        super().__init__(self.response, HTTPStatus.BAD_REQUEST)
 
     def __str__(self):
         return self.response
