@@ -24,8 +24,13 @@ from Models.BigQueryModel import BigQueryData
 
 # config local library
 from Config.cfn import headers
+from Config.cfn import headers
 
 def handler(request):
+
+    if request.method == 'OPTIONS':
+        return ('', HTTPStatus.NO_CONTENT, headers)
+
     
     json_data = request.get_json()
     
@@ -34,9 +39,7 @@ def handler(request):
 
         #function to get data
         response = BmxDivisas(requeriment=args).get_data()
-        return (jsonify(response),200)
-
-        
+        return (jsonify(response),HTTPStatus.OK)
 
 ## NO SE MANEJA EN CLOUD
 if __name__ == '__main__':

@@ -46,22 +46,19 @@ class BigQueryData():
         return self.query
     
     def exec_query(self):
-        try:
-            data = BQ.query(self.query)
 
-            buffer = []
+        data = BQ.query(self.query)
 
-            for item in data:
-                aux = {}
-                aux['mes'] = item[0]
-                aux['dia'] = item[1]
-                aux['pesos'] = round(item[2], 2)
-                aux['divisa'] = item[3]
-                buffer.append(aux)
-            return buffer
-        
-        except:
-            return body_error("Error al consultar infromacion")
+        buffer = []
+
+        for item in data:
+            aux = {}
+            aux['mes'] = item[0]
+            aux['dia'] = item[1]
+            aux['pesos'] = round(item[2], 2)
+            aux['divisa'] = item[3]
+            buffer.append(aux)
+        return buffer
 
 class BigQueryConfiguration():
 

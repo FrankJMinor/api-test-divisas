@@ -17,15 +17,26 @@ from flask import request
 from flask import Flask
 
 # services local library
-from Services.DivisasService import Divisas
+from Services.DivisasService import BmxDivisas
+
+# model local library
+from Models.BigQueryModel import BigQueryData
 
 # config local library
+from Config.cfn import headers
 from Config.cfn import headers
 
 def handler(request):
 
+    if request.method == 'OPTIONS':
+        return ('', HTTPStatus.NO_CONTENT, headers)
+
+    
     json_data = request.get_json()
     
     if request.method == 'GET':
         args =request.args
+
         #function to get data
+        response = BmxDivisas(requeriment=args).get_data()
+        return (jsonify(response),HTTPStatus.OK)
