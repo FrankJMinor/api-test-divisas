@@ -1,0 +1,114 @@
+openapi: 3.0.3
+
+info:
+  version: 0.0.1
+  title: API Cumplo Divisas
+  description: |
+     API para obtener el grafico de las UDI y dolares por rango de fechas, se genero un recurso en Google Cloud Platforma devido a la premisidad del proyecto y su agilidad de implentación de infraestructura
+
+servers: 
+  - url: https://us-central1-taco-tech.cloudfunctions.net/Divisas
+
+tags:
+  - name: Divisas
+
+paths:
+  # This is a endpoint path.
+  '/Divisas/{anio}':
+    get:
+      tags:
+          - Divisas
+      security:
+        - bearer: []
+      summary: Información del usuario
+      description: El proceso genera de regreso un objeto de tipo Json con el formato del grafico para poder implementar con la tecnologia de Highcharts
+      parameters:
+          - in: query
+            name: anio
+            schema:
+              type: string
+              maximum: 15
+            description: Año para consultar la información en formato (YYYY)
+            required: true
+            example: "2020"
+          - in: query
+            name: meses
+            schema:
+              type: string
+              maximum: 250
+            description: Ingresar los meses para consultar formato (M-M-M-MM)
+            required: true
+            example: 1-2-10-11-12
+      responses:
+        '200':
+          description: Devuelve la información en un objeto JSON
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                $ref: '#/components/schemas/Divisas'
+                
+        '400':
+          description: bad input parameter
+
+        '401':
+          description: No Authorized
+          content:
+              text/plain:
+                schema:
+                  type: string
+                  example: "No authorized"
+
+components:
+  #Posible Authentication
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  # Schemas is a map of names to Schema objects
+  schemas:
+    
+    Divisas:
+      title: Información grafica
+      type: object
+      properties:
+        grafico:
+          description: Datos en formato Json para su implementacion de JavaScript
+          type: object
+        usd:
+          type: object
+          properties:
+            maximo:
+              description: valor maximo USD del rango seleccionado
+              type: string
+              example: 24.04
+            minimo:
+              description: Valor minimo USD del rango seleccionado
+              type: string
+              example: 22.48
+            promedio:
+              description: Valor promedio USD del rango seleccionado
+              type: string
+              example: 24.00
+        udis:
+          type: object
+          properties:
+            maximo:
+              description: valor maximo UDIS del rango seleccionado
+              type: string
+              example: 6.55
+            minimo:
+              description: Valor minimo UDIS del rango seleccionado
+              type: string
+              example: 6.55
+            promedio:
+              description: Valor promedio UDIS del rango seleccionado
+              type: string
+              example: 6.05  
+        menssaje:
+          description: Mensaje de información
+          type: string
+          example: "Ok"
